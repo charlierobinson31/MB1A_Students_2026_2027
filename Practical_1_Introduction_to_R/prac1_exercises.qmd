@@ -1,0 +1,51 @@
+---
+title: "Practical_1_Introduction_to_R/prac1_exercises.qmd"
+author: "Charles Robinson"
+---
+
+Using functions to round to the nearest whole number (digits = 0 by default)
+```{r}
+round(3.14159)
+```
+
+Rounding to two decimal places (2 digits)
+```{r}
+round(3.14159, digits = 2)
+```
+
+Argument order
+```{r}
+print(rep(5,7))
+
+print(rep(x=5,times=7))
+```
+
+Character, numerical and logical variables
+```{r}
+x <- "this is a numerical variable"
+print(x)
+print(class(x))
+
+y <- 6*10e-18
+print(y)
+print(class(y))
+
+z <- TRUE
+print(z)
+print(class(z))
+```
+Using variables of different types
+```{r}
+cell_ID_1 <- "CX1"
+cell_ID_2 <- "CX2"
+
+treated_1 <- TRUE
+treated_2 <- FALSE
+
+num_cells_before_1 <- 5415
+num_cells_before_2 <- 8123
+
+num_cells_after_1 <- 1423
+num_cells_after_2 <- 7543
+```
+

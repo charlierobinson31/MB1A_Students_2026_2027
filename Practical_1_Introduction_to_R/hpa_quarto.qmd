@@ -1,0 +1,20 @@
+---
+title: "hpa_quarto"
+author: "Charles robinson"
+---
+
+To calculate the total number of genes with regionally elevated expression in the **forebrain** using data from the [human protein atlas](https://www.proteinatlas.org/humanproteome/brain)
+```{r}
+sum(180,83,57,110)
+```
+
+The total number of genes with regionally elevated expression in the human forebrain is 430
+```{r}
+sum(109,157,31,45)
+```
+The total number of genes with regionally elevated expression in the pig forebrain is 342
+
+```{r}
+sum(55,185,60,98)
+```
+The total number of genes with regionally elevated expression in the mouse forebrain is 398

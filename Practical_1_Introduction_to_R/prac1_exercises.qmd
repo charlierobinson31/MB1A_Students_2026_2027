@@ -15,9 +15,9 @@ round(3.14159, digits = 2)
 
 Argument order
 ```{r}
-print(rep(5,7))
+print(rep(5, 7))
 
-print(rep(x=5,times=7))
+print(rep(x = 5, times = 7))
 ```
 
 Character, numerical and logical variables
@@ -26,7 +26,7 @@ x <- "this is a numerical variable"
 print(x)
 print(class(x))
 
-y <- 6*10e-18
+y <- 6 * 10e-18
 print(y)
 print(class(y))
 
@@ -48,4 +48,3 @@ num_cells_before_2 <- 8123
 num_cells_after_1 <- 1423
 num_cells_after_2 <- 7543
 ```
-

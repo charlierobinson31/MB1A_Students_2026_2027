@@ -34,6 +34,7 @@ z <- TRUE
 print(z)
 print(class(z))
 ```
+
 Using variables of different types
 ```{r}
 cell_ID_1 <- "CX1"
@@ -47,4 +48,50 @@ num_cells_before_2 <- 8123
 
 num_cells_after_1 <- 1423
 num_cells_after_2 <- 7543
+```
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+Installing the tidyverse package collection for data science and from the gt package for visualising data frames.
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+Installing fortunes which gives a random number
+```{r}
+install.packages("fortunes")
+```
+```{r}
+library(fortunes)
+```
+
+Exercise - Vectors
+```{r}
+cell_ids <- c(cell_ID_1, cell_ID_2)
+treateds <- c(treated_1, treated_2)
+n_before <- c(num_cells_before_1, num_cells_before_2)
+n_after <- c(num_cells_after_1, num_cells_after_2)
+```
+
+Exercise - Indexing
+```{r}
+all_my_pets <- c("dog", "horse", "guinea pig", "chicken", "cat")
+pet_4 <- all_my_pets[4]
+print(pet_4)
+```
+
+Exercise - Creating a data frame
+```{r}
+radiation_experiment <- tibble(
+  ID = cell_ids,
+  treatment = treateds,
+  cells_before = n_before,
+  cells_after = n_after,
+)
+
+gt(radiation_experiment)
+
 ```

@@ -2,4 +2,96 @@
 title: "Practical_2_Data_Frames_and_Plots/visualisation_exercise.qmd"
 author: "Charles Robinson"
 ---
+```{r}
+library(tidyverse)
+library(gt)
+library(janitor)
+library(lubridate)
+```
+
+```{r}
+locations <- read_csv("data/movebank_data.csv") |>
+  clean_names() |>
+  mutate(date = as_date(timestamp))
+
+
+```
+
+```{r}
+locations_selected <- locations |>
+  select(
+    individual_local_identifier,
+    date,
+    location_long,
+    location_lat
+  )
+
+gt(head(locations_selected))
+```
+
+```{r}
+library(dplyr)
+
+keep <- c("LA1", "LA2", "LA3", "LA4", "LA5")
+animals_selected <- locations_selected %>% filter(individual_local_identifier %in% keep)
+  
+```
+
+
+```{r}
+locations_grouped <- animals_selected |>
+  group_by(date, individual_local_identifier)
+
+gt(head(locations_grouped))
+```
+
+```{r}
+locations_sum <- locations_grouped |>
+  summarise(
+    Longitude = median(location_long, na.rm = TRUE),
+    Latitude = median(location_lat, na.rm = TRUE)
+  )
+
+gt(head(locations_sum))
+```
+
+
+```{r}
+ggplot(
+  locations_sum,
+  aes(x=Longitude, y= Latitude)
+)+
+geom_point()
+
+```
+```{r}
+min_lon <- locations_sum |>
+  pull(Longitude) |>
+  min()
+
+max_lon <- locations_sum |>
+  pull(Longitude) |>
+  max()
+
+min_lat <- locations_sum |>
+  pull(Latitude) |>
+  min()
+
+max_lat <- locations_sum |>
+  pull(Latitude) |>
+  max()
+
+
+ggplot(
+  locations_sum,
+  aes(x=Longitude, 
+      y=Latitude,
+      colour=individual_local_identifier)
+)+
+  geom_point()+
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(xlim = c(min_lon - 0.1, max_lon + 0.1), ylim = c(min_lat - 0.1, max_lat + 0.1)) +
+  theme_minimal()
+
+```
 

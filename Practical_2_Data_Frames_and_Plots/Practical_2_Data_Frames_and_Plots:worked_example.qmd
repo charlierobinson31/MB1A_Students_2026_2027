@@ -160,4 +160,97 @@ ggplot(
 ) +
   geom_point()
 ```
+Putting the information on a map
+```{r}
+ggplot(
+  spring_data,
+  aes(x = Longitude, y = Latitude)
+) +
+  geom_point() +
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap()
+```
+Calculating min/max lat/long
+```{r}
+min_long <- spring_data |>
+  pull(Longitude) |>
+  min()
+
+print(paste("minimum longitude", min_long))
+      
+max_long <- spring_data |>
+  pull(Longitude) |>
+  max()
+
+print(paste("maximum longitude", max_long))
+      
+min_lat <- spring_data |>
+  pull(Latitude) |>
+  min()
+
+print(paste("minimum latitude", min_lat))
+
+max_lat <- spring_data |>
+  pull(Latitude) |>
+  max()
+
+print(paste("maximum latitude", max_lat))
+
+      
+      
+```
+```{r}
+ggplot(
+  spring_data,
+  aes(x = Longitude, 
+      y = Latitude, 
+      colour = Site, 
+      shape = Location_Type)
+) + 
+  geom_point(size=3) +
+  annotation_borders(linewidth = 0.2) + 
+  coord_quickmap(xlim = c(min_long - 2, max_long + 2), 
+                 ylim = c(min_lat - 2, max_lat + 2)
+) +
+  geom_path(aes(group=Site))
+  ggtitle("Pied Flycatcher Spring Migration Routes") +
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_minimal()
+```
+Autumn Data
+```{r}
+amin_lon <- autumn_data |>
+  pull(Longitude) |>
+  min()
+
+amax_lon <- autumn_data |>
+  pull(Longitude) |>
+  max()
+
+amin_lat <- autumn_data |>
+  pull(Latitude) |>
+  min()
+
+amax_lat <- autumn_data |>
+  pull(Latitude) |>
+  max()
+
+ggplot(
+  autumn_data,
+  aes(x = Longitude, 
+      y = Latitude, 
+      colour = Site,
+      shape = Location_Type)
+  ) +
+  geom_point(size=3) +
+  annotation_borders(linewidth = 0.2) +
+  coord_quickmap(xlim = c(amin_lon - 2, amax_lon + 2),
+                 ylim = c(amin_lat - 2, amax_lat +2)) + 
+  geom_path(aes(group=Site)) +
+  ggtitle("Pied Flycatcher Autumn Migration Routes") +
+  xlab("Longitude (°)") +
+  ylab("Latitude (°)") +
+  theme_minimal()
+```
 

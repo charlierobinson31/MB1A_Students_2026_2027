@@ -1,0 +1,68 @@
+---
+title: "prac3_exercises.qmd"
+author: "Charles Robinson"
+---
+**Part 1: Loops**
+```{r}
+library(tidyverse)
+library(gt)
+set.seed(42)
+```
+
+```{r}
+for(i in seq_len(20)) {
+  j <- i^3
+  print(j)
+}
+  
+```
+
+```{r}
+for( i in seq_len(5)){
+  print(paste(sample(letters, 5, replace = TRUE), collapse=""))
+}
+
+
+```
+```{r}
+breakfast <- c("eggs", "bacon", "sausages", "toast")
+nums <- seq_len(5)
+
+break_df <- tibble()
+for(i in seq_len(10)){
+  item <- sample(breakfast, size = 1)
+  num <- sample(nums, size = 1)
+  row <- tibble (
+    item = item,
+    count = num
+  )
+  break_df <- bind_rows(break_df, row)
+}
+
+gt(break_df)
+```
+
+**Part 2: Using simulation to understand probability**
+```{r}
+n_sims <- 1000
+n_flower_per_sim <- 200
+
+flowers <- rbinom(
+  n = n_sims,
+  size = n_flower_per_sim,
+  prob = 0.6
+)
+
+times_successful <- sum(flowers >= 125)
+
+prob_successful <- times_successful / n_sims
+print(prob_successful)
+
+flower_df <- tibble(pollenating_flowers = flowers)
+
+ggplot(flower_df,
+       aes(x = pollenating_flowers)) +
+  geom_bar()
+  theme_minimal()
+```
+

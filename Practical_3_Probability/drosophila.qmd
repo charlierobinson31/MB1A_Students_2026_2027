@@ -1,0 +1,95 @@
+---
+title: "drosophila.qmd"
+author: "Charles Robinson"
+---
+```{r}
+library(tidyverse)
+library(gt)
+set.seed(42)
+```
+
+
+```{r}
+dcounts <- read_csv("data/drosophila_counts.csv")
+gt(dcounts)
+```
+
+```{r}
+dros_summary <- dcounts |>
+  summarise(
+    total_nm = sum(Novel_Mutation_Count),
+    max_nm = max(Novel_Mutation_Count),
+    mean_nm = mean(Novel_Mutation_Count),
+    variance_nm = var(Novel_Mutation_Count)
+  )
+
+gt(dros_summary)
+```
+
+```{r}
+ggplot(dcounts, aes(x = Novel_Mutation_Count)) +
+  geom_bar() +
+  ggtitle("Number of Populations with each mutation count - observed") +
+  xlab("Novel mutation count") +
+  ylab("Number of populations") +
+  theme_minimal()
+
+```
+```{r}
+mean_sim <- c()
+var_sim <- c()
+```
+
+
+```{r}
+sample_mean <- dros_summary |> pull(mean_nm)
+n_populations <- nrow(dcounts)
+
+for(i in seq_len(1000)) {
+  simulated_counts <- rpois(
+    n = n_populations,
+    lambda = sample_mean
+  )
+  
+  current_mean <- mean(simulated_counts)
+  current_var <- var(simulated_counts)
+  
+  mean_sim <- c(mean_sim, current_mean)
+  var_sim <- c(var_sim, current_var)
+}
+
+```
+
+```{r}
+df_sim <- tibble(
+  mean = mean_sim,
+  var = var_sim,
+  diff = abs(mean_sim - var_sim)
+)
+```
+
+```{r}
+sample_var <- dros_summary |> pull(variance_nm)
+sample_diff <- abs(sample_mean-sample_var)
+
+
+ggplot(df_sim, aes(x = diff)) +
+  geom_histogram(bins=50) +
+  geom_vline(xintercept = sample_diff, color = "red") +
+  ggtitle("Difference between mean and variance across samples - Simulated") +
+  xlab("Difference between mean and variance") +
+  ylab("Number of simulations") +
+  theme_minimal()
+
+```
+
+```{r}
+sample_var <- dros_summary |> pull(variance_nm)
+sample_diff <- abs(sample_mean-sample_var)
+
+greater <- df_sim |> filter(diff > sample_diff)
+prop <- nrow(greater) / nrow(df_sim)
+
+print(prop)
+```
+
